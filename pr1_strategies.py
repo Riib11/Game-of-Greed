@@ -8,7 +8,24 @@ def maxStrategy(myscore, theirscore, last):
     dice = left // 5 # bases rolls on max roll
     return dice
 
-def myStrategyVary(a,b):
+def myStrategyVaryABC(a,b,c):
+    def strat(myscore, theirscore, last):
+        left = 100 - myscore
+
+        avg = 3
+        std = 1.7
+
+        dice = left//(avg + a*std)
+        dice += b * (theirscore - myscore)
+        dice += c * (theirscore)
+
+        if dice < 0:
+            dice = 0
+    
+        return dice
+    return strat
+
+def myStrategyVaryAB(a,b):
     def strat(myscore, theirscore, last):
         left = 100 - myscore
 

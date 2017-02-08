@@ -216,12 +216,18 @@ def improve(strat1):
 
 def myStrategy(myscore, theirscore, last):
     a = 0.0134
+    b = 0.0
+    c = 0.0
+
     left = 100 - myscore
 
     avg = 3
     std = 1.7
 
     dice = int(left // (avg + a*std))
+    dice += b * (theirscore - myscore)
+    dice += c * (theirscore/100)
+
     if dice < 0:
         dice = 0
     return dice

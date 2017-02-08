@@ -1,10 +1,11 @@
 from pr1 import *
 from pr1_strategies import *
 
-class ab_result:
-    def __init__(self,a,b,wr,o_wr,tr):
+class trial_result:
+    def __init__(self,a,b,c,wr,o_wr,tr):
         self.a = a
         self.b = b
+        self.c = c
         self.wr = wr
         self.o_wr = o_wr
         self.tr = tr
@@ -14,28 +15,67 @@ class ab_result:
         print("tr: " + str(100*self.tr) + "%")
         print("a: " + str(self.a))
         print("b: " + str(self.b))
+        if(self.c != -1):
+            print("c: " + str(self.c))
 
-def test_range(min_a,max_a,it_a,min_b,max_b,it_b,tests,strat2):
+def test_rangeABC(min_a,max_a,it_a,min_b,max_b,it_b,min_c,max_c,it_c,tests,strat2):
     iterations_a = int((max_a - min_a) // it_a)
     iterations_b = int((max_b - min_b) // it_b)
+    iterations_c = int((max_c - min_c) // it_c)
 
-    max_ab_result = ab_result(min_a,min_b,0,0,0)
+    max_trial_result = trial_result(min_a,min_b,min_c,0,0,0)
 
+    # cycling through a,b,c
     i = 0
     for ti in tqdm(range(0,iterations_a+1)):
         a = min_a + (it_a*i)
         for j in range(0,iterations_b+1):
             b = min_b + (it_b*j)
-            r = test_trial(a,b,strat2,tests)
-            if r.wr > max_ab_result.wr:
-                max_ab_result = r
+            for k in range(0,iterations_c+1):
+                c = min_c + (it_c*k)
+                
+                r = test_trial(a,b,c,strat2,tests)
+                if r.wr > max_trial_result.wr:
+                    max_trial_result = r
+    i += 1
+
+def test_rangeAB(min_a,max_a,it_a,min_b,max_b,it_b,tests,strat2,reverse):
+    iterations_a = int((max_a - min_a) // it_a)
+    iterations_b = int((max_b - min_b) // it_b)
+
+    max_trial_result = trial_result(min_a,min_b,-1,0,0,0)
+
+    # cycling through a,b
+    i = 0
+    for ti in tqdm(range(0,iterations_a+1)):
+        a = min_a + (it_a*i)
+        for j in range(0,iterations_b+1):
+            b = min_b + (it_b*j)
+
+            c = -1
+
+            r = test_trial(a,b,c,strat2,tests,reverse)
+            
+            if r.wr > max_trial_result.wr:
+                max_trial_result = r
+                print(r.a,r.b,r.wr)
         i += 1
-    max_ab_result.printSelf()
+
+    max_trial_result.printSelf()
 
 
-def test_trial(a,b,strat2,tests):
-    r = manyGamesQuiet(myStrategyVary(a,b),strat2,tests)
-    return ab_result(a,b,r[0],r[1],r[2])
+def test_trial(a,b,c,strat2,tests,reverse):
+    if c == -1:
+        strat1 = myStrategyVaryAB(a,b)
+    else:
+        strat1 = myStrategyVaryABC(a,b,c)
+
+    if reverse:
+        strat1, strat2, = strat2, strat1
+
+    r = manyGamesQuiet(strat1,strat2,tests)
+
+    return trial_result(a,b,c,r[0],r[1],r[2])
 
 def manyGamesQuiet(strat1, strat2, n):
     wins1 = 0
