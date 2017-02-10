@@ -17,7 +17,7 @@ def myStrategyVaryABC(a,b,c):
 
         dice = left//(avg + a*std)
         dice += b * (theirscore - myscore)
-        dice += c * (theirscore)
+        dice += c * (100-theirscore)
 
         if dice < 0:
             dice = 0

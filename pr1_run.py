@@ -22,19 +22,15 @@ Notes:
 
 # manyGames(sample2, myStrategy, n):
 
-# min_a = -1
-# max_a = 1
-# it_a = .001
-
-# min_b = -1
-# max_b = 1
-# it_b = .01
+# min_a = 0.134
+# max_a = 0.134
+# it_a = 0.001
 
 min_a = 0.134
 max_a = 0.134
 it_a = 0.001
 
-min_b = -0.001
+min_b = -0.01
 max_b = 0.001
 it_b = 0.0001
 
@@ -45,10 +41,21 @@ it_c = 0.1
 tests = 10000
 strat2 = pr1testing.test9
 
-# test_rangeAB(min_a,max_a,it_a,min_b,max_b,it_b,tests,strat2,False)
+test_rangeAB(min_a,max_a,it_a,min_b,max_b,it_b,tests,strat2,False)
 
 # max_finderAB(a,b,step_a,step_b,tests,reverse,strat2)
-max_finderABC(1,1,1,.1,.1,.1,tests,False,strat2).printSelf()
+# max_finderABC(1,1,0,.1,.1,.1,tests,False,strat2).printSelf()
 
+a = -0.001
+b = 0.0
+# c = -0.00212
+c = -0.0001011
+# test_trial(a,b,c,strat2,tests,True).printSelf()
+
+# test order stuff:
+# manyGamesQuiet(strat1, strat2, n)
+# result = manyGamesQuiet(myStrategyVaryABC(a,b,c),strat2,tests)
+# print("wr:",result[0])
+# print("other wr:",result[1])
 
 # pr1testing.testStrat(myStrategy, 10000)
